@@ -1,0 +1,21 @@
+<div ng-controller="bucketsController as BC" class="col-sm-8">
+{{BC.bucketsList}}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Status</th>
+				<th>User</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="bucket in BC.bucketsList track by bucket_id">
+				<td>{{bucket.title}}</td>
+				<td>{{bucket.description}}</td>
+				<td>{{bucket.status}}</td>
+				<td>{{bucket.user.name}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,57 @@
+<div ng-controller="sessionController as SC">
+
+	<h3>welcome, {{SC.cur_user.name}}! <a style="float:right" href="/logout">logout</a></h3> 
+
+	<h3><a href="#/bucketslist">Bucket List</a></h3> 
+
+	<h4>Add task to the bucket list</h4>
+	<div class="col-sm-8" ng-controller="bucketsController as BC">
+
+		<p style="color:red" ng-repeat="error in BC.errors">{{error}}</p>
+		<form ng-submit="BC.addBucket()">
+			 <div class="form-group">
+			    <input type="text" class="form-control" placeholder="Title" ng-model="BC.newBucket.title">
+			 </div>
+			 <div class="form-group">
+			    <textarea class="form-control"  rows="2" placeholder="Description" ng-model="BC.newBucket.description"></textarea>
+			 </div>
+			 <div class="form-group">
+			 	Tag friend: <select ng-options="user.name for user in SC.usersList track by user._id" ng-model="BC.newBucket.taggedUser"></select>
+			 </div>
+			 <div>
+			 	<input type="submit" value="ADD" class="btn btn-primary">
+			 </div>
+		</form>
+	
+		Pending tasks:
+		<ul>
+		    <li ng-repeat="user in SC.usersList" ng-if="user.name===SC.cur_user.name">
+		    	<ul>
+		    		<li ng-repeat="bucket in user.buckets" ng-if="bucket.status==='pending'">
+		    		<input type="checkbox" value="" ng-click="BC.changeStatus(bucket._id,user._id)">
+		    		{{bucket.title}}-{{bucket.description}}...- {{bucket.createdAt | date:'medium'}}</li>
+		    	</ul>
+		    </li> 
+		</ul>
+
+		completed tasks:
+		<ul>
+		    <li ng-repeat="user in SC.usersList" ng-if="user.name===SC.cur_user.name">
+		    	<ul>
+		    		<input type="checkbox" ng-click="BC.changeStatus(bucket._id,user._id)">
+		    		<li ng-repeat="bucket in user.buckets" ng-if="bucket.status==='done'">{{bucket.title}}-{{bucket.description}}...- {{bucket.createdAt | date:'medium'}}</li>
+		    	</ul>
+		    </li> 
+		</ul>
+
+		<div class="col-sm-6">
+			<h3>List of other users</h3>
+			<ul class="list-group">
+			  <li class="list-group-item" ng-repeat="user in SC.usersList" ng-if="user.name!==SC.cur_user.name">
+			  	<a href="#/show/user/{{user._id}}">{{user.name}} </a>
+			  </li>
+			</ul>
+		</div>
+	</div>
+</div>
+

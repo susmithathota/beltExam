@@ -1,0 +1,23 @@
+<div ng-controller="sessionController as SC">
+	<h3>{{SC.showUser.name}}'s Bucket List</h3>
+	<div ng-controller="bucketsController as BC">
+		<div>
+			<h5>Pending Tasks</h5>
+			<ul>
+			    <li  ng-repeat="bucket in SC.showUser.buckets track by $index" ng-if="bucket.status==='pending'" >
+			    <input type="checkbox" value="" disabled>
+			    {{bucket.title}} - {{bucket.description}}... - {{bucket.createdAt | date:format:'medium'}}</li>
+			</ul>
+		
+		</div>
+		<div>
+			<h5>Completed Tasks</h5>
+			<ul>
+			    <li  ng-repeat="bucket in SC.showUser.buckets track by $index" ng-if="bucket.status==='done'">
+			    <input type="checkbox" value=""  ng-checked="bucket.status==='done'" disabled>
+			    {{bucket.title}} - {{bucket.description}}... - {{bucket.createdAt | date:format:'medium'}}</li>
+			</ul>
+		
+		</div>
+	</div>
+</div>
